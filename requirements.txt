@@ -1,0 +1,5 @@
+cffi==1.14.6
+pycparser==2.20
+sounddevice==0.4.2
+SoundFile==0.10.3.post1
+SpeechRecognition==3.8.1
