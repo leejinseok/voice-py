@@ -1,5 +1,10 @@
-from utils import record, readText
+from exception import AudioRecordException
+from utils import record, read_text
 
 filePath = record()
-text = readText(filePath=filePath)
-print(text)
+
+try:
+  read_text(filePath=filePath)
+except AudioRecordException as ex:
+  print(ex)
+

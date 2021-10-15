@@ -1,6 +1,15 @@
+from os import error
 import speech_recognition as sr
 import pyaudio
 import wave
+
+from exception import AudioRecordException
+
+def get_audio():
+  r = sr.Recognizer()
+  with sr.Microphone() as source:
+    audio = r.listen()
+
 
 def record():
     CHUNK = 1024
@@ -15,15 +24,15 @@ def record():
                     input=True,
                     frames_per_buffer=CHUNK)
     frames = []
-    print("start record")
+    print("start record ...")
     try:
         while True:
             data = stream.read(CHUNK)
             frames.append(data)
     except KeyboardInterrupt:
-        print("end record")
+        print("end record ...")
         pass
-
+      
     stream.stop_stream()
     stream.close()
     audio.terminate()
@@ -37,12 +46,12 @@ def record():
 
     return WAVE_OUTPUT_FILENAME
 
-def readText(filePath):
+def read_text(filePath):
   recognizer = sr.Recognizer()
   audioFile = sr.AudioFile(filePath)
   with audioFile as source:
     audio = recognizer.record(source)
   if (audioFile.DURATION == None):
-    return
+    raise AudioRecordException("녹음이 되지 않았습니다.")
 
   return recognizer.recognize_google(audio, language='Ko-KR')
